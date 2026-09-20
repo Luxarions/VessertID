@@ -1,0 +1,6 @@
+{
+  "name": "Custom Library",
+  "description": "Custom library development workspace dengan entry point index.js.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

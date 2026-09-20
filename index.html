@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Library Test</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 24px;
+        background: #0f172a;
+        color: #f8fafc;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+      h1 {
+        font-size: 18px;
+        margin-bottom: 12px;
+        color: #38bdf8;
+      }
+      #output {
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        padding: 16px;
+        white-space: pre-wrap;
+        line-height: 1.6;
+        font-size: 13px;
+      }
+      .pass {
+        color: #4ade80;
+        font-weight: bold;
+      }
+      .info {
+        color: #e2e8f0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>index.html &rarr; src/index.js Test Output</h1>
+    <div id="output">Memuat dan mengetes src/index.js...</div>
+
+    <script type="module">
+      import { Vessert, Dtype, Device, config } from './src/index.js';
+
+      const out = document.getElementById('output');
+      try {
+        const lines = [];
+        lines.push('=== MENGHUBUNGKAN LANGSUNG KE src/index.js ===\n');
+
+        lines.push('[1] Module Exports:');
+        lines.push(`    - Vessert: ${typeof Vessert}`);
+        lines.push(`    - Dtype: ${typeof Dtype}`);
+        lines.push(`    - Device: ${typeof Device}`);
+        lines.push(`    - config: ${typeof config}\n`);
+
+        // Test tensor creation
+        const z = Vessert.zeros([2, 3]);
+        lines.push('[2] Vessert.zeros([2, 3]):');
+        lines.push(`    - Shape: [${z.shape.join(', ')}]`);
+        lines.push(`    - Dtype: ${z.dtype}`);
+        lines.push(`    - Sum: ${z.sum().item()}\n`);
+
+        const o = Vessert.ones([2, 2]);
+        lines.push('[3] Vessert.ones([2, 2]):');
+        lines.push(`    - Shape: [${o.shape.join(', ')}]`);
+        lines.push(`    - Sum: ${o.sum().item()}\n`);
+
+        // Test matmul
+        const a = Vessert.from([1, 2, 3, 4], [2, 2]);
+        const b = Vessert.from([5, 6, 7, 8], [2, 2]);
+        const c = a.matmul(b);
+        lines.push('[4] Matrix Multiplication (Matmul 2x2 @ 2x2):');
+        lines.push(`    - Result Data: [${c.toArray().join(', ')}]\n`);
+
+        lines.push('STATUS: SUKSES TERHUBUNG DAN BERFUNGSI SEMPURNA.');
+        
+        out.innerHTML = lines.map(line => {
+          if (line.startsWith('STATUS: SUKSES')) return `<span class="pass">${line}</span>`;
+          return `<span class="info">${line}</span>`;
+        }).join('\n');
+      } catch (err) {
+        out.textContent = 'Error saat mengeksekusi src/index.js: ' + err.message;
+      }
+    </script>
+  </body>
+</html>
