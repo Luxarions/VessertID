@@ -15,7 +15,7 @@ import { mountRoutes } from './app/routes.js';
  * @param {number[]} b - 4-element array for Matrix B
  * @returns {{ result: number[], shape: number[], dtype: string, sum: number }}
  */
-export function computeMatmul(a, b) {
+function computeMatmul(a, b) {
   const tensorA = Vessert.from(a, [2, 2]);
   const tensorB = Vessert.from(b, [2, 2]);
   const tensorC = tensorA.matmul(tensorB);
@@ -32,7 +32,7 @@ export function computeMatmul(a, b) {
  * @param {'zeros' | 'ones' | 'eye' | 'arange' | 'randn'} type
  * @returns {{ label: string, data: any[], shape: number[], dtype: string, size: number }}
  */
-export function generateTensorSample(type) {
+function generateTensorSample(type) {
   let tensor;
   let label = '';
   switch (type) {
@@ -77,7 +77,7 @@ export function generateTensorSample(type) {
  * @param {number} f3
  * @returns {{ p0: number, p1: number, bestClass: number, confidence: number }}
  */
-export function runInference(f1, f2, f3) {
+function runInference(f1, f2, f3) {
   const pred = predict([f1, f2, f3]);
   const probs = pred.toArray();
   const p0 = Math.max(0, Math.min(1, probs[0]));
@@ -95,7 +95,7 @@ export function runInference(f1, f2, f3) {
  * @param {string} [bodyStr]
  * @returns {Promise<{ status: number, latencyMs: number, contentType: string, data: any }>}
  */
-export async function dispatchVirtualRoute(method, url, bodyStr = '') {
+async function dispatchVirtualRoute(method, url, bodyStr = '') {
   const app = new ve.Application();
   mountRoutes(app);
 
@@ -160,7 +160,7 @@ export async function dispatchVirtualRoute(method, url, bodyStr = '') {
  * Binds and initializes the DOM elements present in index.html.
  * Pure JS DOM event binding — does not create HTML strings.
  */
-export function initPreview() {
+function initPreview() {
   if (typeof document === 'undefined') return;
 
   // 1. Tab Navigation
@@ -312,9 +312,21 @@ ${JSON.stringify(out.data, null, 2)}`;
 /**
  * Backward compatibility alias for renderPreview
  */
-export function renderPreview() {
+function renderPreview() {
   initPreview();
 }
+
+// -------------------------------------------------------------------
+// EXPORTS AT THE END OF FILE
+// -------------------------------------------------------------------
+export {
+  initPreview,
+  renderPreview,
+  computeMatmul,
+  generateTensorSample,
+  runInference,
+  dispatchVirtualRoute,
+};
 
 export default {
   initPreview,
