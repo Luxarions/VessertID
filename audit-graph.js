@@ -12,6 +12,7 @@ const SRC_DIR = path.resolve('src');
 const ENTRY_POINTS = [
   'src/index.js',
   'src/app/bootstrap.js',
+  'src/Preview.js',
 ];
 
 // 1. Collect all JS files in src/

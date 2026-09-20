@@ -37,7 +37,11 @@ class Dispatcher {
       if (hooks.onError) {
         try { hooks.onError(httpErr, req); }
         catch (hookErr) {
-          process.stderr.write(`dispatcher: onError hook threw: ${hookErr.message}\n`);
+          if (typeof process !== 'undefined' && process.stderr && typeof process.stderr.write === 'function') {
+            process.stderr.write(`dispatcher: onError hook threw: ${hookErr.message}\n`);
+          } else {
+            console.error(`dispatcher: onError hook threw: ${hookErr.message}`);
+          }
         }
       }
       if (!res.headersSent) sendError(res, httpErr);

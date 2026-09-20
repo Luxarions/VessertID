@@ -47,6 +47,7 @@ import { ve } from './src/ve/ve.js';
 // Imports: App Units & Root
 import { predict, info } from './src/app/model.js';
 import { mountRoutes } from './src/app/routes.js';
+import { renderPreview } from './src/Preview.js';
 import * as RootIndex from './src/index.js';
 
 const results = [];
@@ -419,6 +420,10 @@ runUnit('src/index.js (Entrypoint exports)', () => {
   if (typeof RootIndex.Device !== 'object') throw new Error('Root Device export missing');
   if (typeof RootIndex.config !== 'object') throw new Error('Root config export missing');
   if (typeof RootIndex.ve !== 'object') throw new Error('Root ve export missing');
+});
+
+runUnit('src/Preview.js (UI Entrypoint)', () => {
+  if (typeof renderPreview !== 'function') throw new Error('Root renderPreview export missing');
 });
 
 // -------------------------------------------------------------

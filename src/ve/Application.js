@@ -23,14 +23,18 @@ class Application extends EventEmitter {
     this._dispatcher = new Dispatcher({
       router: this._router,
       middlewares: this._middlewares,
-      rootDir: options.rootDir ?? process.cwd(),
+      rootDir: options.rootDir ?? (typeof process !== 'undefined' && typeof process.cwd === 'function' ? process.cwd() : '.'),
       indexFallback: options.indexFallback ?? 'index.html',
       bodyLimit: options.bodyLimit ?? DEFAULT_BODY_LIMIT,
       hooks: {
         onRequest:   (req, res) => this.emit('request', req, res),
         onError:     (err, req) => {
           if (this.listenerCount('error') > 0) this.emit('error', err, req);
-          else process.stderr.write(`app error: ${err.message}\n`);
+          else if (typeof process !== 'undefined' && process.stderr && typeof process.stderr.write === 'function') {
+            process.stderr.write(`app error: ${err.message}\n`);
+          } else {
+            console.error(`app error: ${err.message}`);
+          }
         },
         onForbidden: (url)      => this.emit('forbidden', url),
       },
