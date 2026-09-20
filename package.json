@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
     "test": "node test.js",
+    "audit": "node audit-graph.js",
+    "audit:file": "node audit-graph.js --file",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
